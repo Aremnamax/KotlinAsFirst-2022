@@ -60,6 +60,10 @@ fun main() {
     println(lengthInMeters(8,2,11))
     println(angleInRadian(36,14,35))
     println(c(3.0,0.0,0.0,4.0))
+    println(thirdDigit(589))
+    println(travelMinutes(9,59,10,0))
+    println(accountInThreeYears(100,10))
+    println(numberRevert(321))
 }
 
 /**
@@ -103,7 +107,7 @@ fun c(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((y2 - y1).p
  * Пользователь задает целое число, больше или равно 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int = TODO()
+fun thirdDigit(number: Int): Int = number % 1000 / 100
 
 /**
  * Простая (2 балла)
@@ -112,7 +116,7 @@ fun thirdDigit(number: Int): Int = TODO()
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = TODO()
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = (hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart)
 
 /**
  * Простая (2 балла)
@@ -121,7 +125,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
+fun accountInThreeYears(initial: Int, percent: Int): Double = ((initial.toDouble() * ((1 + percent.toDouble()/100.0).pow(3))) * 10.0).roundToInt() / 10.0
 
 /**
  * Простая (2 балла)
@@ -129,4 +133,4 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
  * Пользователь задает целое трехзначное число (например, 478).
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = TODO()
+fun numberRevert(number: Int): Int = ((number % 10).toString() + (number / 10 % 10).toString() + (number / 100).toString()).toInt()
