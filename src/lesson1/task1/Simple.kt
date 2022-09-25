@@ -59,7 +59,7 @@ fun main() {
     println(seconds(8,20,35))
     println(lengthInMeters(8,2,11))
     println(angleInRadian(36,14,35))
-    println(c(3.0,0.0,0.0,4.0))
+    println(trackLength(3.0,0.0,0.0,4.0))
     println(thirdDigit(589))
     println(travelMinutes(9,59,10,0))
     println(accountInThreeYears(100,10))
@@ -99,7 +99,7 @@ fun angleInRadian(deg: Int, min: Int, sec: Int): Double = ((((deg*3600 + min*60 
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun c(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((y2 - y1).pow(2) + (x2 - x1).pow(2))
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((y2 - y1).pow(2) + (x2 - x1).pow(2))
 
 /**
  * Простая (2 балла)
