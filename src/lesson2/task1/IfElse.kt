@@ -8,7 +8,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sqrt
-
+import kotlin.math.abs
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
 // Максимальное количество баллов = 6
@@ -67,13 +67,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 }
 
 
-fun main(){
+fun main() {
     println(ageDescription(199))
-    println(timeForHalfWay(4.0,3.0,1.0,4.0,1.0,6.0))
-    println(whichRookThreatens(1,2,3,4,5,6))
-    println(rookOrBishopThreatens(1,6,7,6,3,8))
-    println(triangleKind(5.0,3.0,4.0))
-    println(segmentLength(1,15,10,14))
+    println(timeForHalfWay(4.0, 3.0, 1.0, 4.0, 1.0, 6.0))
+    println(whichRookThreatens(1, 2, 3, 4, 5, 6))
+    println(rookOrBishopThreatens(1, 6, 7, 6, 3, 8))
+    println(triangleKind(7.070541216611483, 7.070541216611483, 0.1))
+    println(segmentLength(1, 15, 10, 14))
 }
 
 
@@ -83,16 +83,13 @@ fun main(){
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String {
-    return if (age < 1 || age > 199) "Неправильный ввод" else
-        if (age % 100 in 5..20) "$age лет" else
-            if (age % 10 == 1) "$age год" else
-                if (age % 10 in 2..4) "$age года" else
-                    if ((age % 10 in 5..9) || (age % 10 == 0)) "$age лет" else
-                        ""
-
+fun ageDescription(age: Int): String = when {
+    age % 100 in 5..20 -> "$age лет"
+    age % 10 == 1 -> "$age год"
+    age % 10 in 2..4 -> "$age года"
+    (age % 10 in 5..9) || (age % 10 == 0) -> "$age лет"
+    else -> "Неправильный ввод"
 }
-
 
 
 /**
@@ -111,8 +108,11 @@ fun timeForHalfWay(
     val s2 = t2 * v2
     val s3 = t3 * v3
     val s = s1 + s2 + s3
-    return if (s / 2 < s1) (s / 2 / v1) else
-        if (s / 2 < s1 + s2) (t1 + ((s / 2 - s1) / v2)) else (t1 + t2 + (((s / 2) - s1 - s2) / v3))
+    return when {
+        (s / 2 < s1) -> (s / 2 / v1)
+        (s / 2 < s1 + s2) -> (t1 + ((s / 2 - s1) / v2))
+        else -> (t1 + t2 + (((s / 2) - s1 - s2) / v3))
+    }
 }
 
 /**
@@ -128,10 +128,10 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = when{
-    ((kingX == rookX1 || kingY == rookY1) && (kingX != rookX2 && kingY != rookY2)) -> 1
-    ((kingX == rookX2 || kingY == rookY2) && (kingX != rookX1 && kingY != rookY1)) -> 2
-    ((kingX == rookX1 && kingY == rookY2) || (kingX == rookX2 && kingY == rookY1)) -> 3
+): Int = when {
+    (kingX == rookX1 || kingY == rookY1) && (kingX != rookX2 && kingY != rookY2) -> 1
+    (kingX == rookX2 || kingY == rookY2) && (kingX != rookX1 && kingY != rookY1) -> 2
+    (kingX == rookX1 && kingY == rookY2) || (kingX == rookX2 && kingY == rookY1) -> 3
     else -> 0
 }
 
@@ -150,14 +150,12 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int {
-    return if ((kingX == rookX && kotlin.math.abs(kingX - bishopX) == kotlin.math.abs(kingY - bishopY)) || (kingY == rookY && kotlin.math.abs(kingX - bishopX) == kotlin.math.abs(kingY - bishopY))) 3 else
-    {
-        if ((kingX == rookX) || (kingY == rookY)) 1 else
-        {
-            if (kotlin.math.abs(kingX - bishopX) == kotlin.math.abs(kingY - bishopY)) 2 else 0
-        }
-    }
+): Int = when {
+    (kingX == rookX && abs(kingX - bishopX) == abs(kingY - bishopY)) ||
+            (kingY == rookY && abs( kingX - bishopX) == abs(kingY - bishopY)) -> 3
+    (kingX == rookX) || (kingY == rookY) -> 1
+    abs(kingX - bishopX) == abs(kingY - bishopY) -> 2
+    else -> 0
 }
 
 /**
@@ -169,22 +167,12 @@ fun rookOrBishopThreatens(
  * Если такой треугольник не существует, вернуть -1.
  */
 
-fun triangleKind(a: Double, b: Double, c: Double): Int = when{
-    (a > b + c || c > b + a || b > a + c) -> -1
-    (max(max(a, b), c).pow(2) < min(min(a, b), c).pow(2) + min(max(a,b), c).pow(2)) -> 0
-    (max(max(a, b), c).pow(2) == min(min(a, b), c).pow(2) + min(max(a,b), c).pow(2)) -> 1
+fun triangleKind(a: Double, b: Double, c: Double): Int = when {
+    a > b + c || c > b + a || b > a + c -> -1
+    sqr(max(max(a, b), c)) < sqr(min(min(a, b), c)) + sqr(a + b + c - max(max(a, b), c) - min(min(a, b), c)) -> 0
+    sqr(max(max(a, b), c)) == sqr(min(min(a, b), c)) + sqr(a + b + c - max(max(a, b), c) - min(min(a, b), c)) -> 1
     else -> 2
 }
-
-
-/*{
-    return if (a < b + c && c < b + a && b < a + c) {
-        if ((a * a + b * b > c * c) || (b * b + c * c > a * a) || (a * a + c * c > b * b)) 2 else {
-            if ((a * a + b * b == c * c) || (b * b + c * c == a * a) || (a * a + c * c == b * b)) 1 else {
-                if ((a * a + b * b < c * c) || (b * b + c * c < a * a) || (a * a + c * c < b * b)) 0  else -1 }
-        }
-    } else -1
-}*/
 
 /**
  * Средняя (3 балла)
@@ -195,13 +183,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = when{
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int{
-    return if ((a <= c && c <= b && b <= d) || (c <= a && a <= d && d <= b) || (c <= a && a <= b && b <= d) || (a <= c && c <= d && d <= b)){
-        if (a <= c && c <= b && b <= d) (b - c) else{
-            if (c <= a && a <= d && d <= b) (d - a) else{
-                if (c <= a && a <= b && b <= d) (b - a) else{
-                    if (a <= c && c <= d && d <= b) (d - c) else -1
-                }
-            }
+    return if ((a <= c && (c <= b) && b <= d) || (c <= a && (a <= d) && d <= b) || (c <= a && (a <= b) && b <= d) ||
+        (a <= c && (c <= d) && d <= b)) {
+        when {
+            (a <= c && (c <= b) && b <= d) -> (b - c)
+            (c <= a && (a <= d) && d <= b) -> (d - a)
+            (c <= a && (a <= b) && b <= d) -> (b - a)
+            (a <= c && (c <= d) && d <= b) -> (d - c)
+            else -> -1
         }
     } else -1
 }

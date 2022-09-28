@@ -6,6 +6,7 @@ import lesson1.task1.sqr
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sqrt
+import kotlin.math.abs
 
 
 fun main(){
@@ -13,7 +14,7 @@ fun main(){
     println(queenThreatens(3,6,7,6))
     println(daysInMonth(2,1990))
     println(circleInside(0.0,0.0, 6.0,0.0,6.0,5.0))
-    println(brickPasses(3,2,1,1,2))
+    println(brickPasses(2,2,1,1,1))
 }
 
 /**
@@ -35,7 +36,7 @@ fun isNumberHappy(number: Int): Boolean {
     val n2 = number / 100 % 10
     val n3 = number % 100 / 10
     val n4 = number % 10
-    return if (n1 + n2 == n3 + n4) true else false
+    return (n1 + n2 == n3 + n4)
 }
 
 /**
@@ -45,9 +46,9 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  * Считать, что ферзи не могут загораживать друг друга.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return if ((x1 == x2) || (y1 == y2) || (kotlin.math.abs(x1 - x2) == kotlin.math.abs(y1 - y2))) true else false
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = ((x1 == x2) || (y1 == y2) ||
+        (abs(x1 - x2) == abs(y1 - y2)))
+
 
 
 /**
@@ -79,11 +80,7 @@ fun daysInMonth(month: Int, year: Int): Int{
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = (sqrt(((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))) + r1 <= r2)
-
-/*{
-    return if (((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2)) < kotlin.math.abs(r1 - r2)) true else false
-}*/
+): Boolean = sqrt(((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))) + r1 <= r2
 
 /**
  * Средняя (3 балла)
@@ -94,8 +91,8 @@ fun circleInside(
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean{
-    val mn = kotlin.math.min(min(a, b), c)
-    val medium = kotlin.math.min(kotlin.math.max(a,b), c)
-    return if ((mn <= r && medium <= s) || (mn <= s && medium <= r)) true else false
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val mn = min(min(a, b), c)
+    val medium = a + b + c - max(max(a, b), c) - mn
+    return ((mn <= r && medium <= s) || (mn <= s && medium <= r))
 }
