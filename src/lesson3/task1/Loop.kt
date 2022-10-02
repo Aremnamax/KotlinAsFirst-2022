@@ -4,7 +4,7 @@ package lesson3.task1
 
 import lesson1.task1.trackLength
 import kotlin.math.sqrt
-
+import kotlin.math.pow
 // Урок 3: циклы
 // Максимальное количество баллов = 9
 // Рекомендуемое количество баллов = 7
@@ -102,12 +102,12 @@ fun digitNumber(n: Int): Int{
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int{
+fun fib(n: Int): Int {
     var c = 2
     var prev = 1
     var post = 1
     var sum = 1
-    while (c != n && n != 1){
+    while (c != n && n != 1) {
         sum = prev + post
         prev = post
         post = sum
@@ -121,7 +121,7 @@ fun fib(n: Int): Int{
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int{
+fun minDivisor(n: Int): Int {
     var c = 0
     for (i in 2..n){
         if (n % i == 0) {
@@ -137,7 +137,7 @@ fun minDivisor(n: Int): Int{
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int{
+fun maxDivisor(n: Int): Int {
     var c = 0
     for (i in n - 1 downTo 1){
         if (n % i == 0) {
@@ -289,7 +289,28 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var dig = 0
+    var count = 0
+    var pr = 0
+    for (i in 1..n) {
+        dig = i * i
+        while (dig != 0) {
+            dig /= 10
+            ++count
+        }
+        if (count > n) {
+            pr = (i * i) % (10.0.pow(count - n + 1)).toInt() / (10.0.pow(count - n)).toInt()
+            break
+        } else {
+            if (count == n) {
+                pr = i * i % 10
+                break
+            } else continue
+        }
+    }
+    return pr
+}
 
 /**
  * Сложная (5 баллов)
@@ -300,4 +321,31 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var count = 2
+    var prev = 1
+    var post = 1
+    var sum = 1
+    var pr = 1
+    var dig = 0
+    while (count != n && n != 1) {
+        sum = prev + post
+        prev = post
+        post = sum
+        dig = sum
+        while (dig != 0) {
+            dig /= 10
+            ++count
+        }
+        if (count > n) {
+            pr = sum % (10.0.pow(count - n + 1)).toInt() / (10.0.pow(count - n)).toInt()
+            break
+        } else {
+            if (count == n) {
+                pr = sum % 10
+                break
+            } else continue
+        }
+    }
+    return pr
+}
