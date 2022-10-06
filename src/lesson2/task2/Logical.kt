@@ -9,7 +9,7 @@ import kotlin.math.sqrt
 import kotlin.math.abs
 
 
-fun main(){
+fun main() {
     println(isNumberHappy(1222))
     println(queenThreatens(3,6,7,6))
     println(daysInMonth(2,1990))
@@ -57,16 +57,11 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = ((x1 == x2) ||
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int{
-    return if ((year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0)) when (month){
-        1,3,5,7,8,10,12 -> 31
-        2 -> 29
+fun daysInMonth(month: Int, year: Int): Int {
+    return if (month != 2) when (month) {
+        1, 3, 5, 7, 8, 10, 12 -> 31
         else -> 30
-    } else when (month){
-        1,3,5,7,8,10,12 -> 31
-        2 -> 28
-        else -> 30
-    }
+    } else if ((year % 4 == 0 && year % 100 != 0) || (year % 100 == 0 && year % 400 == 0)) 29 else 28
 
 }
 

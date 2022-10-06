@@ -5,6 +5,7 @@ package lesson3.task1
 import lesson1.task1.trackLength
 import kotlin.math.sqrt
 import kotlin.math.pow
+
 // Урок 3: циклы
 // Максимальное количество баллов = 9
 // Рекомендуемое количество баллов = 7
@@ -65,14 +66,14 @@ fun digitCountInNumber(n: Int, m: Int): Int =
         else -> digitCountInNumber(n / 10, m) + digitCountInNumber(n % 10, m)
     }
 
-fun main(){
+fun main() {
     println(digitNumber(13))
     println(fib(1))
     println(minDivisor(9))
     println(maxDivisor(12))
     println(collatzSteps(5))
-    println(lcm(10,2))
-    println(isCoPrime(17,97))
+    println(lcm(10, 2))
+    println(isCoPrime(17, 97))
 }
 
 
@@ -84,14 +85,14 @@ fun main(){
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int{
+fun digitNumber(n: Int): Int {
     var count = 0
     var n1 = n
-    while (n1 > 0)
-    {
-        n1 = n1 / 10
-        count += 1
+    while (n1 != 0) {
+        n1 /= 10
+        ++count
     }
+    if (n == 0) count = 1
     return count
 }
 
@@ -123,10 +124,10 @@ fun fib(n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var c = 0
-    for (i in 2..n){
+    for (i in 2..n) {
         if (n % i == 0) {
-         c = i
-         break
+            c = i
+            break
         }
     }
     return c
@@ -137,16 +138,16 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var c = 0
-    for (i in n - 1 downTo 1){
-        if (n % i == 0) {
-            c = i
-            break
-        }
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
+/*var c = 0
+for (i in n - 1 downTo 1) {
+    if (n % i == 0) {
+        c = i
+        break
     }
-    return c
 }
+return c*/
+
 
 /**
  * Простая (2 балла)
@@ -166,14 +167,15 @@ fun maxDivisor(n: Int): Int {
  */
 fun collatzSteps(x: Int): Int {
     var c = 0
-    var x = x
-    while (x != 1){
-        if (x % 2 == 0) {
-            x = x / 2
-            c += 1 }
-        else {
-            x = 3 * x + 1
-            c += 1}
+    var x1 = x
+    while (x1 != 1) {
+        if (x1 % 2 == 0) {
+            x1 /= 2
+            c += 1
+        } else {
+            x1 = 3 * x1 + 1
+            c += 1
+        }
     }
     return c
 }
@@ -184,17 +186,7 @@ fun collatzSteps(x: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var k = kotlin.math.max(m,n)
-    var bool = true
-    while (bool){
-        if (k % m == 0 && k % n == 0) {
-            bool = false
-            break
-        } else k += 1
-    }
-    return k
-}
+fun lcm(m: Int, n: Int): Int = TODO()
 
 
 /**
@@ -204,20 +196,17 @@ fun lcm(m: Int, n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean{
-    var k = kotlin.math.min(m,n)
+fun isCoPrime(m: Int, n: Int): Boolean {
+    val k = kotlin.math.min(m, n)
     var bool = true
-    for (i in 2..k){
+    for (i in 2..k) {
         if (m % i == 0 && n % i == 0) {
             bool = false
             break
-        }else continue
-        }
+        } else continue
+    }
     return bool
 }
-
-
-
 
 
 /**
@@ -302,12 +291,11 @@ fun squareSequenceDigit(n: Int): Int {
         if (count > n) {
             pr = (i * i) % (10.0.pow(count - n + 1)).toInt() / (10.0.pow(count - n)).toInt()
             break
-        } else {
-            if (count == n) {
-                pr = i * i % 10
-                break
-            } else continue
+        } else if (count == n) {
+            pr = i * i % 10
+            break
         }
+
     }
     return pr
 }
@@ -340,11 +328,9 @@ fun fibSequenceDigit(n: Int): Int {
         if (count > n) {
             pr = sum % (10.0.pow(count - n + 1)).toInt() / (10.0.pow(count - n)).toInt()
             break
-        } else {
-            if (count == n) {
-                pr = sum % 10
-                break
-            } else continue
+        } else if (count == n) {
+            pr = sum % 10
+            break
         }
     }
     return pr

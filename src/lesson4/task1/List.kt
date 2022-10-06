@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import kotlin.math.sqrt
+import kotlin.math.pow
 
 // Урок 4: списки
 // Максимальное количество баллов = 12
@@ -120,14 +121,17 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double = sqrt(v.map { it * it }.sum())
+
 
 /**
  * Простая (2 балла)
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size
+
 
 /**
  * Средняя (3 балла)
@@ -137,7 +141,10 @@ fun mean(list: List<Double>): Double = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val arMean = list.sum() / list.size
+    return if (list.isEmpty()) list else list
+}
 
 /**
  * Средняя (3 балла)
@@ -146,7 +153,15 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int = TODO()
+fun times(a: List<Int>, b: List<Int>): Int {
+    var c = mutableListOf<Int>()
+    if (a.size > 0) {
+        for (i in a.indices) {
+            c += b[i] * a[i]
+        }
+    } else c = mutableListOf<Int>()
+    return c.sum()
+}
 
 /**
  * Средняя (3 балла)
@@ -156,7 +171,13 @@ fun times(a: List<Int>, b: List<Int>): Int = TODO()
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0 при любом x.
  */
-fun polynom(p: List<Int>, x: Int): Int = TODO()
+fun polynom(p: List<Int>, x: Int): Int {
+    val array = mutableListOf<Int>()
+    for (i in p.indices) {
+        array += p[i] * (x.toDouble().pow(i)).toInt()
+    }
+    return array.sum()
+}
 
 /**
  * Средняя (3 балла)
@@ -231,7 +252,15 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    /*val array = mutableListOf<Int>()*/
+    var array = 0
+    for (i in str.indices) {
+        array += if (str[i].code in 48..57) ((str[i].code - 48) * (base.toDouble().pow(str.length - i - 1)).toInt()) else
+            (str[i].code - 87) * (base.toDouble().pow(str.length - i - 1)).toInt()
+    }
+    return array
+}
 
 /**
  * Сложная (5 баллов)
