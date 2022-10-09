@@ -150,15 +150,15 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int {
+fun times(a: List<Int>, b: List<Int>): Int = TODO() /*{
     var c = mutableListOf<Int>()
-    if (a.size > 0) {
+    if (a.isNotEmpty()) {
         for (i in a.indices) {
             c += b[i] * a[i]
         }
     } else c = mutableListOf<Int>()
     return c.sum()
-}
+}*/
 
 /**
  * Средняя (3 балла)
@@ -168,13 +168,7 @@ fun times(a: List<Int>, b: List<Int>): Int {
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0 при любом x.
  */
-fun polynom(p: List<Int>, x: Int): Int {
-    val array = mutableListOf<Int>()
-    for (i in p.indices) {
-        array += p[i] * (x.toDouble().pow(i)).toInt()
-    }
-    return array.sum()
-}
+fun polynom(p: List<Int>, x: Int): Int = (p.mapIndexed { idx, value -> value * (x.toDouble().pow(idx)).toInt() }).sum()
 
 /**
  * Средняя (3 балла)
@@ -226,7 +220,16 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    var n1 = n
+    var digit = ""
+    while (n1 != 0) {
+        if (n1 % base < 10) digit = (n1 % base).toString() + digit else
+            digit = (n1 % base + 87).toChar() + digit
+        n1 /= base
+    }
+    return digit
+}
 
 /**
  * Средняя (3 балла)
@@ -249,12 +252,15 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, str.toInt(base)), запрещается.
  */
+
+fun main(){
+    println('a' - 100)
+}
 fun decimalFromString(str: String, base: Int): Int {
-    /*val array = mutableListOf<Int>()*/
     var array = 0
     for (i in str.indices) {
-        array += if (str[i].code in 48..57) ((str[i].code - 48) * (base.toDouble().pow(str.length - i - 1)).toInt()) else
-            (str[i].code - 87) * (base.toDouble().pow(str.length - i - 1)).toInt()
+        array += if (str[i] in '0'..'9') ((str[i] - '0') * (base.toDouble().pow(str.length - i - 1)).toInt()) else
+            (str[i] - 'a' + 10) * (base.toDouble().pow(str.length - i - 1)).toInt()
     }
     return array
 }

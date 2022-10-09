@@ -88,11 +88,11 @@ fun main() {
 fun digitNumber(n: Int): Int {
     var count = 0
     var n1 = n
+    if (n == 0) return 1
     while (n1 != 0) {
         n1 /= 10
         ++count
     }
-    if (n == 0) count = 1
     return count
 }
 
@@ -169,12 +169,12 @@ fun collatzSteps(x: Int): Int {
     var c = 0
     var x1 = x
     while (x1 != 1) {
-        if (x1 % 2 == 0) {
+        c += if (x1 % 2 == 0) {
             x1 /= 2
-            c += 1
+            1
         } else {
             x1 = 3 * x1 + 1
-            c += 1
+            1
         }
     }
     return c
@@ -196,7 +196,7 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
+fun isCoPrime(m: Int, n: Int): Boolean = TODO() /*{
     val k = kotlin.math.min(m, n)
     var bool = true
     for (i in 2..k) {
@@ -206,7 +206,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
         } else continue
     }
     return bool
-}
+}*/
 
 
 /**
@@ -281,21 +281,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun squareSequenceDigit(n: Int): Int {
     var dig = 0
     var count = 0
-    var pr = 0
+    val pr = 0
     for (i in 1..n) {
         dig = i * i
         while (dig != 0) {
             dig /= 10
             ++count
         }
-        if (count > n) {
-            pr = (i * i) % (10.0.pow(count - n + 1)).toInt() / (10.0.pow(count - n)).toInt()
-            break
-        } else if (count == n) {
-            pr = i * i % 10
-            break
-        }
-
+        if (count > n) return (i * i) % (10.0.pow(count - n + 1)).toInt() / (10.0.pow(count - n)).toInt()
+        else if (count == n) return i * i % 10
     }
     return pr
 }
@@ -325,13 +319,8 @@ fun fibSequenceDigit(n: Int): Int {
             dig /= 10
             ++count
         }
-        if (count > n) {
-            pr = sum % (10.0.pow(count - n + 1)).toInt() / (10.0.pow(count - n)).toInt()
-            break
-        } else if (count == n) {
-            pr = sum % 10
-            break
-        }
+        if (count > n) return sum % (10.0.pow(count - n + 1)).toInt() / (10.0.pow(count - n)).toInt()
+        else if (count == n) return sum % 10
     }
     return pr
 }
