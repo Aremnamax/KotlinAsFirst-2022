@@ -214,12 +214,16 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
 fun convertToString(n: Int, base: Int): String {
     var n1 = n
     var digit = ""
+    if (n == 0) digit = "0"
     while (n1 != 0) {
         digit = if (n1 % base < 10) (n1 % base).toString() + digit else (n1 % base + 87).toChar() + digit
         n1 /= base
     }
     return digit
 }
+/*fun main() {
+    println(convertToString(0, 2))
+}*/
 
 /**
  * Средняя (3 балла)
@@ -347,9 +351,10 @@ fun russian(n: Int): String {
                 flag = false
             }
 
-            i == 2 && n1 % 10 > 4 && flag -> number = arrayto9[n1 % 10] + "десят" + " " + number
+            i == 2 && n1 % 10 in 5..8 && flag -> number = arrayto9[n1 % 10] + "десят" + " " + number
             i == 2 && n1 % 10 in 2..3 && flag -> number = arrayto9[n1 % 10] + "дцать" + " " + number
             i == 2 && n1 % 10 == 4 && flag -> number = "сорок $number"
+            i == 2 && n1 % 10 == 9 && flag -> number = "девяносто $number"
             i == 3 && n1 % 10 != 0 -> {
                 number = arrayto900[n1 % 10] + " " + number
                 flag = true
@@ -366,9 +371,10 @@ fun russian(n: Int): String {
                 flag4 = true
             }
 
-            i == 5 && n1 % 10 > 4 && flag -> number = arrayto9[n1 % 10] + "десят" + " " + number
+            i == 5 && n1 % 10 in 5..8 && flag -> number = arrayto9[n1 % 10] + "десят" + " " + number
             i == 5 && n1 % 10 in 2..3 && flag -> number = arrayto9[n1 % 10] + "дцать" + " " + number
             i == 5 && n1 % 10 == 4 && flag -> number = "сорок $number"
+            i == 5 && n1 % 10 == 9 && flag -> number = "девяносто $number"
             i == 6 -> {
                 when {
                     !flag4 -> number = arrayto900[n1 % 10] + " " + "тысяч" + " " + number
@@ -383,6 +389,6 @@ fun russian(n: Int): String {
     return number.trim()
 }
 
-fun main(){
-    println(russian(215649))
+fun main() {
+    println(russian(899969))
 }
