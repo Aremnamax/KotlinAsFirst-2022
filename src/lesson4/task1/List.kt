@@ -347,7 +347,7 @@ fun russian(n: Int): String {
                 flag = false
             }
 
-            i == 2 && n1 % 10 > 3 && flag -> number = arrayto9[n1 % 10] + "десят" + " " + number
+            i == 2 && n1 % 10 > 4 && flag -> number = arrayto9[n1 % 10] + "десят" + " " + number
             i == 2 && n1 % 10 in 2..3 && flag -> number = arrayto9[n1 % 10] + "дцать" + " " + number
             i == 2 && n1 % 10 == 4 && flag -> number = "сорок $number"
             i == 3 && n1 % 10 != 0 -> {
@@ -366,7 +366,7 @@ fun russian(n: Int): String {
                 flag4 = true
             }
 
-            i == 5 && n1 % 10 > 3 && flag -> number = arrayto9[n1 % 10] + "десят" + " " + number
+            i == 5 && n1 % 10 > 4 && flag -> number = arrayto9[n1 % 10] + "десят" + " " + number
             i == 5 && n1 % 10 in 2..3 && flag -> number = arrayto9[n1 % 10] + "дцать" + " " + number
             i == 5 && n1 % 10 == 4 && flag -> number = "сорок $number"
             i == 6 -> {
@@ -381,4 +381,8 @@ fun russian(n: Int): String {
         n1 /= 10
     }
     return number.trim()
+}
+
+fun main(){
+    println(russian(215649))
 }
