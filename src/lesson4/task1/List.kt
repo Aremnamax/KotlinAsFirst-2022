@@ -365,20 +365,41 @@ fun russian(n: Int): String {
                 flag4 = true
             }
 
+            i == 4 && n1 % 100 != 10 && n1 % 10 == 0 -> {
+                number = "тысяч $number"
+                flag4 = true
+            }
+
             i == 4 && n1 % 100 in 10..19 -> {
                 number = arrayto1019[n1 % 100] + " " + arrayto10001019[n1 % 100] + " " + number
                 flag = false
                 flag4 = true
             }
 
-            i == 5 && n1 % 10 in 5..8 && flag -> number = arrayto9[n1 % 10] + "десят" + " " + number
-            i == 5 && n1 % 10 in 2..3 && flag -> number = arrayto9[n1 % 10] + "дцать" + " " + number
-            i == 5 && n1 % 10 == 4 && flag -> number = "сорок $number"
-            i == 5 && n1 % 10 == 9 && flag -> number = "девяносто $number"
+            i == 5 && n1 % 10 in 5..8 && flag -> {
+                number = arrayto9[n1 % 10] + "десят" + " " + number
+                flag4 = true
+            }
+
+            i == 5 && n1 % 10 in 2..3 && flag -> {
+                number = arrayto9[n1 % 10] + "дцать" + " " + number
+                flag4 = true
+            }
+
+            i == 5 && n1 % 10 == 4 && flag -> {
+                number = "сорок $number"
+                flag4 = true
+            }
+
+            i == 5 && n1 % 10 == 9 && flag -> {
+                number = "девяносто $number"
+                flag4 = true
+            }
+
             i == 6 -> {
-                when {
-                    !flag4 -> number = arrayto900[n1 % 10] + " " + "тысяч" + " " + number
-                    else -> number = arrayto900[n1 % 10] + " " + number
+                number = when {
+                    !flag4 -> arrayto900[n1 % 10] + " " + "тысяч" + " " + number
+                    else -> arrayto900[n1 % 10] + " " + number
                 }
             }
 
@@ -390,5 +411,5 @@ fun russian(n: Int): String {
 }
 
 fun main() {
-    println(russian(899969))
+    println(russian(830021))
 }
