@@ -16,16 +16,15 @@ import kotlin.math.pow
  *
  * Найти все корни уравнения x^2 = y
  */
-fun sqRoots(y: Double) =
-    when {
-        y < 0 -> listOf()
-        y == 0.0 -> listOf(0.0)
-        else -> {
-            val root = sqrt(y)
-            // Результат!
-            listOf(-root, root)
-        }
+fun sqRoots(y: Double) = when {
+    y < 0 -> listOf()
+    y == 0.0 -> listOf(0.0)
+    else -> {
+        val root = sqrt(y)
+        // Результат!
+        listOf(-root, root)
     }
+}
 
 /**
  * Пример
@@ -150,15 +149,7 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.
  */
-fun times(a: List<Int>, b: List<Int>): Int = TODO() /*{
-    var c = mutableListOf<Int>()
-    if (a.isNotEmpty()) {
-        for (i in a.indices) {
-            c += b[i] * a[i]
-        }
-    } else c = mutableListOf<Int>()
-    return c.sum()
-}*/
+fun times(a: List<Int>, b: List<Int>): Int = TODO()
 
 /**
  * Средняя (3 балла)
@@ -168,7 +159,7 @@ fun times(a: List<Int>, b: List<Int>): Int = TODO() /*{
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0 при любом x.
  */
-fun polynom(p: List<Int>, x: Int): Int = (p.mapIndexed { idx, value -> value * (x.toDouble().pow(idx)).toInt() }).sum()
+fun polynom(p: List<Int>, x: Int): Int = p.mapIndexed { idx, value -> value * (x.toDouble().pow(idx)).toInt() }.sum()
 
 /**
  * Средняя (3 балла)
@@ -224,8 +215,7 @@ fun convertToString(n: Int, base: Int): String {
     var n1 = n
     var digit = ""
     while (n1 != 0) {
-        if (n1 % base < 10) digit = (n1 % base).toString() + digit else
-            digit = (n1 % base + 87).toChar() + digit
+        digit = if (n1 % base < 10) (n1 % base).toString() + digit else (n1 % base + 87).toChar() + digit
         n1 /= base
     }
     return digit
@@ -253,14 +243,15 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * (например, str.toInt(base)), запрещается.
  */
 
-fun main(){
-    println('a' - 100)
-}
+
 fun decimalFromString(str: String, base: Int): Int {
     var array = 0
     for (i in str.indices) {
-        array += if (str[i] in '0'..'9') ((str[i] - '0') * (base.toDouble().pow(str.length - i - 1)).toInt()) else
+        array += if (str[i] in '0'..'9') {
+            (str[i] - '0') * (base.toDouble().pow(str.length - i - 1)).toInt()
+        } else {
             (str[i] - 'a' + 10) * (base.toDouble().pow(str.length - i - 1)).toInt()
+        }
     }
     return array
 }
@@ -282,4 +273,112 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var number = ""
+    val nstr = n.toString()
+    var n1 = n
+    var flag = true
+    var flag4 = false
+    val arrayto9 = mutableMapOf(
+        1 to "один",
+        2 to "два",
+        3 to "три",
+        4 to "четыре",
+        5 to "пять",
+        6 to "шесть",
+        7 to "семь",
+        8 to "восемь",
+        9 to "девять"
+    )
+    val arrayto1019 = mutableMapOf(
+        10 to "десять",
+        11 to "одиннадцать",
+        12 to "двенадцать",
+        13 to "тринадцать",
+        14 to "четырнадцать",
+        15 to "пятнадцать",
+        16 to "шестнадцать",
+        17 to "семнадцать",
+        18 to "восемнадцать",
+        19 to "девятнадцать"
+    )
+    val arrayto900 = mutableMapOf(
+        1 to "сто",
+        2 to "двести",
+        3 to "триста",
+        4 to "четыреста",
+        5 to "пятьсот",
+        6 to "шестьсот",
+        7 to "семьсот",
+        8 to "восемьсот",
+        9 to "девятьсот"
+    )
+    val arrayto1000 = mutableMapOf(
+        1 to "одна тысяча",
+        2 to "две тысячи",
+        3 to "три тысячи",
+        4 to "четыре тысячи",
+        5 to "пять тысяч",
+        6 to "шесть тысяч",
+        7 to "семь тысяч",
+        8 to "восемь тысяч",
+        9 to "девять тысяч"
+    )
+    val arrayto10001019 = mutableMapOf(
+        10 to "тысяч",
+        11 to "тысяч",
+        12 to "тысяч",
+        13 to "тысяч",
+        14 to "тысяч",
+        15 to "тысяч",
+        16 to "тысяч",
+        17 to "тысяч",
+        18 to "тысяч",
+        19 to "тысяч"
+    )
+    for (i in 1..nstr.length) {
+        when {
+            i == 1 && n1 % 100 !in 10..19 && n1 % 10 != 0 -> {
+                number = arrayto9[n1 % 10] + number
+            }
+
+            i == 1 && n1 % 100 in 10..19 -> {
+                number = arrayto1019[n1 % 100] + number
+                flag = false
+            }
+
+            i == 2 && n1 % 10 > 3 && flag -> number = arrayto9[n1 % 10] + "десят" + " " + number
+            i == 2 && n1 % 10 in 2..3 && flag -> number = arrayto9[n1 % 10] + "дцать" + " " + number
+            i == 2 && n1 % 10 == 4 && flag -> number = "сорок $number"
+            i == 3 && n1 % 10 != 0 -> {
+                number = arrayto900[n1 % 10] + " " + number
+                flag = true
+            }
+
+            i == 4 && n1 % 100 !in 10..19 && n1 % 10 != 0 -> {
+                number = arrayto1000[n1 % 10] + " " + number
+                flag4 = true
+            }
+
+            i == 4 && n1 % 100 in 10..19 -> {
+                number = arrayto1019[n1 % 100] + " " + arrayto10001019[n1 % 100] + " " + number
+                flag = false
+                flag4 = true
+            }
+
+            i == 5 && n1 % 10 > 3 && flag -> number = arrayto9[n1 % 10] + "десят" + " " + number
+            i == 5 && n1 % 10 in 2..3 && flag -> number = arrayto9[n1 % 10] + "дцать" + " " + number
+            i == 5 && n1 % 10 == 4 && flag -> number = "сорок $number"
+            i == 6 -> {
+                when {
+                    !flag4 -> number = arrayto900[n1 % 10] + " " + "тысяч" + " " + number
+                    else -> number = arrayto900[n1 % 10] + " " + number
+                }
+            }
+
+            else -> number += ""
+        }
+        n1 /= 10
+    }
+    return number.trim()
+}

@@ -169,13 +169,8 @@ fun collatzSteps(x: Int): Int {
     var c = 0
     var x1 = x
     while (x1 != 1) {
-        c += if (x1 % 2 == 0) {
-            x1 /= 2
-            1
-        } else {
-            x1 = 3 * x1 + 1
-            1
-        }
+        if (x1 % 2 == 0) x1 /= 2 else x1 = 3 * x1 + 1
+        c++
     }
     return c
 }
@@ -196,17 +191,7 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO() /*{
-    val k = kotlin.math.min(m, n)
-    var bool = true
-    for (i in 2..k) {
-        if (m % i == 0 && n % i == 0) {
-            bool = false
-            break
-        } else continue
-    }
-    return bool
-}*/
+fun isCoPrime(m: Int, n: Int): Boolean = TODO()
 
 
 /**
@@ -217,14 +202,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO() /*{
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun revert(n: Int): Int = TODO()
-/*{
-    var n = n
-    var revers = 0
-    while (n != 0){
-        revers =1
-        n =1
-    }
-}*/
+
 
 /**
  * Средняя (3 балла)
@@ -279,11 +257,10 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var dig = 0
     var count = 0
     val pr = 0
     for (i in 1..n) {
-        dig = i * i
+        var dig = i * i
         while (dig != 0) {
             dig /= 10
             ++count
