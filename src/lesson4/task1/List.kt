@@ -363,11 +363,13 @@ fun russian(n: Int): String {
             i == 4 && n1 % 100 !in 10..19 && n1 % 10 != 0 -> {
                 number = arrayto1000[n1 % 10] + " " + number
                 flag4 = true
+                flag = true
             }
 
             i == 4 && n1 % 100 != 10 && n1 % 10 == 0 -> {
                 number = "тысяч $number"
                 flag4 = true
+                flag = true
             }
 
             i == 4 && n1 % 100 in 10..19 -> {
@@ -411,5 +413,5 @@ fun russian(n: Int): String {
 }
 
 fun main() {
-    println(russian(830021))
+    println(russian(51017))
 }
