@@ -115,13 +115,16 @@ fun dateStrToDigit(str: String): String {
         prnt = if (splt[1] in month) '.' + month[splt[1]].toString() + prnt
         else ""
         prnt = if (prnt.isNotEmpty() && splt[0].toInt() in 1..(map[month[splt[1]]]?.toInt() ?: 0)) {
-            if (splt[0].toInt() in 1..9) '0' + splt[0] + prnt
+            if (splt[0].toInt() in 1..9) '0' + splt[0].toInt().toString() + prnt
             else splt[0] + prnt
         } else ""
     } else prnt = ""
     return prnt
 }
 
+/*fun main(){
+    println(dateStrToDigit("000001 июня 1"))
+}*/
 /**
  * Средняя (4 балла)
  *
