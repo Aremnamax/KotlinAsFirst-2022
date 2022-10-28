@@ -2,6 +2,8 @@
 
 package lesson6.task1
 
+import java.lang.Exception
+
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
@@ -47,7 +49,7 @@ fun timeSecondsToStr(seconds: Int): String {
 /**
  * Пример: консольный ввод
  */
-fun main() {
+/*fun main() {
     println("Введите время в формате ЧЧ:ММ:СС")
     val line = readLine()
     if (line != null) {
@@ -60,7 +62,7 @@ fun main() {
     } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
-}
+}*/
 
 
 /**
@@ -74,7 +76,51 @@ fun main() {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val splt = str.split(' ')
+    val map = mutableMapOf<String, Int>(
+        "01" to 31,
+        "02" to 28,
+        "03" to 31,
+        "04" to 30,
+        "05" to 31,
+        "06" to 30,
+        "07" to 31,
+        "08" to 31,
+        "09" to 30,
+        "10" to 31,
+        "11" to 30,
+        "12" to 31
+    )
+    val month = mutableMapOf<String, String>(
+        "января" to "01",
+        "февраля" to "02",
+        "марта" to "03",
+        "апреля" to "04",
+        "мая" to "05",
+        "июня" to "06",
+        "июля" to "07",
+        "августа" to "08",
+        "сентября" to "09",
+        "октября" to "10",
+        "ноября" to "11",
+        "декабря" to "12"
+    )
+    var prnt = ""
+    if (splt.size == 3) {
+        if ((splt[2].toInt() % 4 == 0 && splt[2].toInt() % 100 != 0) || (splt[2].toInt() % 100 == 0 && splt[2].toInt() % 400 == 0)) {
+            map["02"] = 29
+        }
+        prnt += '.' + splt[2]
+        prnt = if (splt[1] in month) '.' + month[splt[1]].toString() + prnt
+        else ""
+        prnt = if (prnt.isNotEmpty() && splt[0].toInt() in 1..(map[month[splt[1]]]?.toInt() ?: 0)) {
+            if (splt[0].toInt() in 1..9) '0' + splt[0] + prnt
+            else splt[0] + prnt
+        } else ""
+    } else prnt = ""
+    return prnt
+}
 
 /**
  * Средняя (4 балла)
@@ -114,7 +160,31 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    return try {
+        val jumpsR =
+            jumps.replace("-", " ").replace("%", " ").split(" ").filter { it != "" }.map { it.toInt() }
+        jumpsR.max()
+    } catch (e: NoSuchElementException) {
+        -1
+    } catch (e: NumberFormatException) {
+        -1
+    }
+}
+
+/*fun main() {
+    val jumps = " "
+    try {
+        val jumpsR = jumps.replace(" ", "").replace("-", " ").replace("%", " ").split(" ").filter { it != "" }.map { it.toInt() }
+        print(jumpsR.max())
+
+    } catch (e: NumberFormatException) {
+        println(-12)
+    } finally {
+        print(-1)
+    }
+    throw NoSuchElementException("hi")
+}*/
 
 /**
  * Сложная (6 баллов)
