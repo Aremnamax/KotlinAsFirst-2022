@@ -216,13 +216,13 @@ fun convertToString(n: Int, base: Int): String {
     var digit = ""
     if (n == 0) digit = "0"
     while (n1 != 0) {
-        digit = if (n1 % base < 10) (n1 % base).toString() + digit else (n1 % base + 87).toChar() + digit
+        digit = if (n1 % base < 10) (n1 % base).toString() + digit else ('a' + n1 % base - 10) + digit
         n1 /= base
     }
     return digit
 }
 /*fun main() {
-    println(convertToString(0, 2))
+    println('a' + 12 - 10)
 }*/
 
 /**
@@ -412,6 +412,6 @@ fun russian(n: Int): String {
     return number.trim()
 }
 
-fun main() {
+/*fun main() {
     println(russian(51017))
-}
+}*/

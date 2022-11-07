@@ -203,7 +203,6 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  */
 fun revert(n: Int): Int = TODO()
 
-
 /**
  * Средняя (3 балла)
  *

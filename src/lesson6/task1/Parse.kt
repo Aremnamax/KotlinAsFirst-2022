@@ -126,9 +126,9 @@ fun dateStrToDigit(str: String): String {
     return prnt
 }
 
-fun main() {
+/*fun main() {
     println(dateStrToDigit("aaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaa"))
-}
+}*/
 
 /**
  * Средняя (4 балла)
@@ -227,7 +227,38 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val splt = str.split(" ")
+    var index = -1
+    var len = 0
+    if (splt.size != 1) {
+        for (i in 0..splt.size - 2) {
+            if (splt[i].lowercase() == splt[i + 1].lowercase()) {
+                index = len
+                break
+            } else len += splt[i].length + 1
+        }
+    }
+    return index
+}
+
+/*fun main() {
+    val str = "В в в"
+    val splt = str.split(" ")
+    var index = -1
+    var len = 0
+    if (splt.size != 1) {
+        for (i in 0..splt.size - 2) {
+            *//*println(i)*//*
+            if (splt[i].lowercase() == splt[i + 1].lowercase()) {
+                index = len
+                break
+            } else len += splt[i].length + 1
+            println(len)
+        }
+        println(index)
+    }
+}*/
 
 /**
  * Сложная (6 баллов)
