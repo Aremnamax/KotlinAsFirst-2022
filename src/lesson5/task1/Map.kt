@@ -251,19 +251,22 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
  */
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? {
     var mn = 10000000000.0
-    var str: String? = null
+    var str: String? = ""
+    var flag = false
     for (key in stuff.keys) {
         if (stuff[key]?.first == kind && mn > stuff[key]?.second!!) {
+            flag = true
             mn = stuff[key]?.second!!
             str = key
         }
     }
+    if (str == "" && !flag) str = null
     return (str)
 }
 
 /*fun main() {
-    val stuff = mapOf("Мария" to ("печенье" to 20.0), "Орео" to ("печенье" to 100.0))
-    val kind = "печенье"
+    *//*val stuff = mapOf("" to ("" to 20.0))
+    val kind = ""
     var mn = 10000000000.0
     var str = ""
     for (key in stuff.keys) {
@@ -272,8 +275,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
             mn = stuff[key]?.second!!
             str = key
         }
-    }
-    println(str)
+    }*//*
+    println(findCheapestStuff(mapOf("" to ("" to 20.0)), ""))
 }*/
 
 /**
@@ -293,12 +296,15 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
             break
         }
     }
-    if (chars.isNotEmpty() && word == "") flag = true
+    if (chars.isEmpty() && word == "") flag = true
+    else if (chars.isNotEmpty() && word == "") flag = true
     return flag
 }
-/*fun main() {
-    println(canBuildFrom(listOf('m','a'), "a"))
-}*/
+/*
+fun main() {
+    println(canBuildFrom(listOf(), ""))
+}
+*/
 
 
 /**
@@ -385,24 +391,8 @@ fun hasAnagrams(words: List<String>): Boolean = TODO()
  *          "GoodGnome" to setOf()
  *        )
  */
-fun search () {
-
-}
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
-
-fun main() {
-    val mp = mapOf(
-        "Marat" to setOf("Mikhail", "Sveta"),
-        "Sveta" to setOf("Marat"),
-        "Mikhail" to setOf("Sveta"),
-        "Friend" to setOf("GoodGnome"),
-        "EvilGnome" to setOf()
-    )
-
-    for (name in mp) {
-
-    }
-    println(mp.filter { (key, value) -> (key == "Sveta") || ("Sveta" in value) })
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    TODO()
 }
 
 /**

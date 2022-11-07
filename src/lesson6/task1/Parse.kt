@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import java.lang.Exception
+import kotlin.math.max
 
 // Урок 6: разбор строк, исключения
 // Максимальное количество баллов = 13
@@ -205,7 +206,23 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    var mx = -1
+    val jumpsplt = jumps.split(" ")
+    for (i in 1 until jumpsplt.size) {
+        if ("+" in jumpsplt[i]) mx = max(mx, jumpsplt[i - 1].toInt())
+    }
+    return mx
+}
+
+fun main() {
+    val jump = "220 + 224 %+ 228 %- 230 + 232 %%- 234 %".split(" ")
+    var mx = -100
+    for (i in jump.indices) {
+        if ("+" in jump[i]) mx = max(mx, jump[i - 1].toInt())
+    }
+    println(mx)
+}
 
 /**
  * Сложная (6 баллов)
