@@ -162,12 +162,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean {
  *   subtractOf(a = mutableMapOf("a" to "z"), mapOf("a" to "z"))
  *     -> a changes to mutableMapOf() aka becomes empty
  */
-fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): MutableMap<String, String> {
-    val map: MutableMap<String, String> = a
-    val value = mutableMapOf<String, String>()
-    map.keys.forEach { if (it in b.keys && a[it] == b[it]) value[it] = a[it].toString() }
-    return a
-}
+fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): MutableMap<String, String> = TODO()
 
 /*fun main() {
     val b = mapOf("a" to "z")
@@ -291,7 +286,7 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     var flag = false
     for (i in word) {
-        if (i in chars) flag = true else {
+        if (i.lowercase() in chars.map { it.lowercase() }) flag = true else {
             flag = false
             break
         }
@@ -413,22 +408,27 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
  *   findSumOfTwo(listOf(1, 2, 3), 6) -> Pair(-1, -1)
  */
 fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
-    var result = Pair(-1, -1)
+    val map = mutableMapOf<Int, Int>()
     for (i in list.indices) {
-        if ((number - list[i]) in list && i != list.indexOf(number - list[i])) {
-            result = Pair(i, list.indexOf(number - list[i]))
-            break
-        }
+        if (list[i] in map.keys && i != map[list[i]]) return Pair(map.getOrDefault(list[i], -1), i)
+        map[number - list[i]] = i
     }
-    return result
+    return Pair(-1, -1)
 }
 /*fun main() {
     val list = listOf(1, 2, 3)
-    val dig = 4
-    println(list.map {})
+    val number = 3
+    val map = mutableMapOf<Int, Int>()
+    for (i in list.indices) {
+        if (list[i] in map.keys && i != map[list[i]]) println(Pair(map.getOrDefault(list[i],-1),i))
+        map[number - list[i]] = i
+    }
+    println(map)}*/
 
+/*
     println(findSumOfTwo(listOf(1, 0, 0, 0, 0), 0))
-}*/
+*/
+
 
 
 /*outerLoop@ for (i in list.indices) {

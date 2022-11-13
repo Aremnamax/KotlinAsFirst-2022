@@ -66,6 +66,7 @@ fun timeSecondsToStr(seconds: Int): String {
 }*/
 
 
+
 /**
  * Средняя (4 балла)
  *
@@ -172,7 +173,7 @@ fun flattenPhoneNumber(phone: String): String = TODO()
 fun bestLongJump(jumps: String): Int {
     return try {
         val jumpsR =
-            jumps.replace("-", " ").replace("%", " ").split(" ").filter { it != "" }.map { it.toInt() }
+            jumps.split("""[%\-\s]""".toRegex()).filter { it.isNotBlank() }.map { it.trim().toInt() }
         jumpsR.max()
     } catch (e: NoSuchElementException) {
         -1
@@ -180,6 +181,13 @@ fun bestLongJump(jumps: String): Int {
         -1
     }
 }
+
+/*fun main() {
+    val jumps = "700 717 707 % 754"
+    val jump = jumps.split("""[%\-\s]""".toRegex()).filter { it.isNotBlank() }.map { it.trim().toInt() }
+    println(jump)
+}*/
+
 
 /*fun main() {
     val jumps = " "
@@ -215,14 +223,14 @@ fun bestHighJump(jumps: String): Int {
     return mx
 }
 
-fun main() {
-    val jump = "220 + 224 %+ 228 %- 230 + 232 %%- 234 %".split(" ")
-    var mx = -100
-    for (i in jump.indices) {
-        if ("+" in jump[i]) mx = max(mx, jump[i - 1].toInt())
-    }
-    println(mx)
-}
+/*fun main() {*/
+/*    val jump = "220 + 224 %+ 228 %- 230 + 232 %%- 234 %".split(" ")*/
+/*    var mx = -100*/
+/*    for (i in jump.indices) {*/
+/*        if ("+" in jump[i]) mx = max(mx, jump[i - 1].toInt())*/
+/*    }*/
+/*    println(mx)*/
+/*}*/
 
 /**
  * Сложная (6 баллов)
@@ -234,6 +242,19 @@ fun main() {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int = TODO()
+
+/*fun main() {
+    val expression = "1 + 2 + 3 + 4"
+    val reg = "(\\w+\\s(\\+|-)){1,}".toRegex()
+    val m = reg.containsMatchIn(expression)
+    val fnd = reg.findAll(expression)
+
+
+    println(reg.containsMatchIn(expression))
+*//*
+    return if (reg.matches(expression)) 1 else 0
+*//*
+}*/
 
 /**
  * Сложная (6 баллов)
@@ -288,8 +309,23 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val descriptionSplt = description.split("""[\s;]""".toRegex()).filter { it.isNotBlank() }
+    var mx = -1111.0
+    var result = ""
+    for (sm in 1 until descriptionSplt.size step 2) {
+        if (mx < descriptionSplt[sm].toDouble()) {
+            mx = descriptionSplt[sm].toDouble()
+            result = descriptionSplt[sm - 1]
+        }
+    }
+    return result
+}
 
+/*fun main() {
+    val description = "Хлеб 39.9; Молоко 62; Курица 184.0; Конфеты 89.9"
+    println(description.split("""[\s;]""".toRegex()).filter { it.isNotBlank() })
+}*/
 /**
  * Сложная (6 баллов)
  *
