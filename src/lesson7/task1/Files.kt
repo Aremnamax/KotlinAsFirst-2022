@@ -173,7 +173,7 @@ fun centerFile(inputName: String, outputName: String) {
     val fileObject = File(inputName)
     val lines = fileObject.bufferedReader().readLines().map { it.trim() }
     try {
-        val maxindx = lines.indexOf(lines.max())
+        val maxindx = lines.indexOf(lines.maxByOrNull { it.length }!!)
         for (indx in lines.indices) {
             if (lines.size == 1) {
                 writer.write(lines[indx])
@@ -186,17 +186,22 @@ fun centerFile(inputName: String, outputName: String) {
     } catch (e: NoSuchElementException) {
         writer.write("")
     }
+
     writer.close()
 }
 
-/*fun main() {
+fun main() {
     val writer = File("input/outputName.txt").bufferedWriter()
     val fileObject = File("input/input.txt")
     val lines = fileObject.bufferedReader().readLines().map { it.trim() }
     try {
-        val maxindx = lines.indexOf(lines.max())
+        val maxindx = lines.indexOf(lines.maxByOrNull { it.length }!!)
         print(maxindx)
         for (indx in lines.indices) {
+            if (lines.size == 1) {
+                writer.write(lines[indx])
+                break
+            }
             if (indx != maxindx) {
                 writer.write(" ".repeat((lines[maxindx].length - lines[indx].length) / 2) + lines[indx] + "\n")
             } else writer.write(lines[indx] + "\n")
@@ -206,7 +211,7 @@ fun centerFile(inputName: String, outputName: String) {
     }
 
     writer.close()
-}*/
+}
 
 
 /**
