@@ -176,7 +176,7 @@ fun centerFile(inputName: String, outputName: String) {
         val maxindx = lines.indexOf(lines.max())
         for (indx in lines.indices) {
             if (lines.size == 1) {
-                writer.write(" " + lines[indx])
+                writer.write(lines[indx])
                 break
             }
             if (indx != maxindx) {
