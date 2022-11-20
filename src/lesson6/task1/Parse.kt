@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+import lesson2.task2.daysInMonth
 import java.lang.Exception
 import kotlin.math.max
 
@@ -80,52 +81,37 @@ fun timeSecondsToStr(seconds: Int): String {
  */
 fun dateStrToDigit(str: String): String {
     val splt = str.split(' ')
-    val map = mutableMapOf<String, Int>(
-        "01" to 31,
-        "02" to 28,
-        "03" to 31,
-        "04" to 30,
-        "05" to 31,
-        "06" to 30,
-        "07" to 31,
-        "08" to 31,
-        "09" to 30,
-        "10" to 31,
-        "11" to 30,
-        "12" to 31
+    var year = 0
+    var monthprnt = 0
+    var day = 0
+    var flag = 0
+    val month = mutableMapOf<String, Int>(
+        "января" to 1,
+        "февраля" to 2,
+        "марта" to 3,
+        "апреля" to 4,
+        "мая" to 5,
+        "июня" to 6,
+        "июля" to 7,
+        "августа" to 8,
+        "сентября" to 9,
+        "октября" to 10,
+        "ноября" to 11,
+        "декабря" to 12
     )
-    val month = mutableMapOf<String, String>(
-        "января" to "01",
-        "февраля" to "02",
-        "марта" to "03",
-        "апреля" to "04",
-        "мая" to "05",
-        "июня" to "06",
-        "июля" to "07",
-        "августа" to "08",
-        "сентября" to "09",
-        "октября" to "10",
-        "ноября" to "11",
-        "декабря" to "12"
-    )
-    var prnt = ""
     try {
         if (splt.size == 3) {
-            if ((splt[2].toInt() % 4 == 0 && splt[2].toInt() % 100 != 0) || (splt[2].toInt() % 100 == 0 && splt[2].toInt() % 400 == 0)) {
-                map["02"] = 29
-            }
-            prnt += '.' + splt[2]
-            prnt = if (splt[1] in month) '.' + month[splt[1]].toString() + prnt
-            else ""
-            prnt = if (prnt.isNotEmpty() && splt[0].toInt() in 1..(map[month[splt[1]]]?.toInt() ?: 0)) {
-                if (splt[0].toInt() in 1..9) '0' + splt[0].toInt().toString() + prnt
-                else splt[0] + prnt
-            } else ""
-        } else prnt = ""
+            year = splt[2].toInt()
+            if (splt[1] in month) {
+                monthprnt = month[splt[1]]!!
+                if (splt[0].toInt() <= daysInMonth(month.getOrDefault(splt[1], -1), splt[2].toInt())
+                ) day = splt[0].toInt() else flag = 1
+            } else flag = 1
+        } else flag = 1
+        return if (flag == 0) String.format("%02d.%02d.%02d", day, monthprnt, year) else ""
     } catch (e: NumberFormatException) {
-        prnt = ""
+        return ""
     }
-    return prnt
 }
 
 /*fun main() {
@@ -311,7 +297,7 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String {
     val descriptionSplt = description.split("""[\s;]""".toRegex()).filter { it.isNotBlank() }
-    var mx = -1111.0
+    var mx = -1.0
     var result = ""
     for (sm in 1 until descriptionSplt.size step 2) {
         if (mx < descriptionSplt[sm].toDouble()) {

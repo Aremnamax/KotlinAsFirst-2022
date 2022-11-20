@@ -247,6 +247,25 @@ fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Doub
 fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): String? = TODO()
 
 
+/*fun main() {
+    val stuff = mapOf("" to ("" to 20.0))
+    val kind = ""
+    var mn = 10000000000.0
+    var str: String? = ""
+    var flag = false
+    for (key in stuff.keys) {
+        if (stuff[key]?.first == kind && mn > stuff[key]?.second!!) {
+            flag = true
+            mn = stuff[key]?.second!!
+            str = key
+        }
+    }
+    if (str == "" && !flag) str = null
+    println(str)
+}*//*
+    println(findCheapestStuff(mapOf("" to ("" to 20.0)), ""))
+}*/
+
 /**
  * Средняя (3 балла)
  *
@@ -259,7 +278,8 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
     var flag = false
     for (i in word) {
-        if (i.lowercase() in chars.map { it.lowercase() }) flag = true else {
+        if (i.lowercase() in chars.map { it.lowercase() }) flag = true
+        else {
             flag = false
             break
         }
@@ -401,7 +421,6 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
 /*
     println(findSumOfTwo(listOf(1, 0, 0, 0, 0), 0))
 */
-
 
 
 /*outerLoop@ for (i in list.indices) {
