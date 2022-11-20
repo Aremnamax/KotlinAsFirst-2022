@@ -174,8 +174,11 @@ fun centerFile(inputName: String, outputName: String) {
     val lines = fileObject.bufferedReader().readLines().map { it.trim() }
     try {
         val maxindx = lines.indexOf(lines.max())
-        print(maxindx)
         for (indx in lines.indices) {
+            if (lines.size == 1) {
+                writer.write(" " + lines[indx])
+                break
+            }
             if (indx != maxindx) {
                 writer.write(" ".repeat((lines[maxindx].length - lines[indx].length) / 2) + lines[indx] + "\n")
             } else writer.write(lines[indx] + "\n")
