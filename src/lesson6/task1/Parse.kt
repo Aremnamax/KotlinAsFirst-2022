@@ -108,14 +108,14 @@ fun dateStrToDigit(str: String): String {
                 ) day = splt[0].toInt() else flag = 1
             } else flag = 1
         } else flag = 1
-        return if (flag == 0) String.format("%02d.%02d.%02d", day, monthprnt, year) else ""
+        return if (flag == 0) String.format("%02d.%02d.%d", day, monthprnt, year) else ""
     } catch (e: NumberFormatException) {
         return ""
     }
 }
 
 /*fun main() {
-    println(dateStrToDigit("aaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaa"))
+    println(dateStrToDigit("1 января 1"))
 }*/
 
 /**
