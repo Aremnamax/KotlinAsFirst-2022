@@ -183,14 +183,14 @@ fun centerFile(inputName: String, outputName: String) {
                 writer.write(" ".repeat((lines[maxindx].length - lines[indx].length) / 2) + lines[indx] + "\n")
             } else writer.write(lines[indx] + "\n")
         }
-    } catch (e: NoSuchElementException) {
+    } catch (e: NullPointerException) {
         writer.write("")
     }
 
     writer.close()
 }
 
-fun main() {
+/*fun main() {
     val writer = File("input/outputName.txt").bufferedWriter()
     val fileObject = File("input/input.txt")
     val lines = fileObject.bufferedReader().readLines().map { it.trim() }
@@ -206,12 +206,12 @@ fun main() {
                 writer.write(" ".repeat((lines[maxindx].length - lines[indx].length) / 2) + lines[indx] + "\n")
             } else writer.write(lines[indx] + "\n")
         }
-    } catch (e: NoSuchElementException) {
+    } catch (e: NullPointerException) {
         writer.write("")
     }
 
     writer.close()
-}
+}*/
 
 
 /**
