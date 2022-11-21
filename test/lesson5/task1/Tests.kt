@@ -133,11 +133,12 @@ class Tests {
         subtractOf(from, mapOf())
         assertEquals(mapOf("a" to "z", "b" to "c"), from)
 
+        subtractOf(from, mapOf("a" to "z"))
+        assertEquals(mapOf("b" to "c"), from)
+
         subtractOf(from, mapOf("b" to "z"))
         assertEquals(mapOf("a" to "z", "b" to "c"), from)
 
-        subtractOf(from, mapOf("a" to "z"))
-        assertEquals(mapOf("b" to "c"), from)
     }
 
     @Test
@@ -225,6 +226,13 @@ class Tests {
             findCheapestStuff(
                 mapOf("Мария" to ("печенье" to 20.0), "Орео" to ("печенье" to 100.0)),
                 "печенье"
+            )
+        )
+        assertEquals(
+            "",
+            findCheapestStuff(
+                mapOf("" to ("" to 20.0)),
+                ""
             )
         )
     }

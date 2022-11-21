@@ -3,6 +3,8 @@
 package lesson7.task1
 
 import java.io.File
+import kotlin.math.abs
+import kotlin.math.absoluteValue
 
 // Урок 7: работа с файлами
 // Урок интегральный, поэтому его задачи имеют сильно увеличенную стоимость
@@ -548,62 +550,80 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    writer.write(" $lhv | $rhv\n")
     val del = (lhv / rhv).toString()
     var prev = lhv
     var prevlenline = 0
     var minus = 0
-    for (i in del.indices) {
-        val mindig = (rhv * del[i].toString().toInt()).toString()
-        if (i == 0) {
+    if (lhv < rhv) {
+        if (lhv.toString().length == 1) {
+            writer.write(" $lhv | $rhv\n")
             writer.write(
-                "-" + mindig + " ".repeat(3 + (lhv.toString().length - mindig.length)) + del
+                "-0" + " ".repeat(3) + del + "\n" +
+                        "-".repeat(maxOf(2, lhv.toString().length)) + "\n" + " $lhv"
             )
-            writer.write("\n" + "-".repeat(mindig.length + 1) + "\n")
-            prevlenline += mindig.length + 1
-            if (i == del.length - 1) {
-                writer.write(
-                    " ".repeat(
-                        prevlenline - (prev - rhv * del[i].toString().toInt()).toString().length
-                    ) + (prev - rhv * del[i].toString().toInt())
-                )
-            }
         } else {
-            if (i == 1) minus = lhv.toString().slice(0 until prevlenline - 1).toInt() -
-                    rhv * del[0].toString().toInt()
-            else minus = prev - rhv * del[i - 1].toString().toInt()
-            println(minus)
-            println(prevlenline)
+            writer.write("$lhv | $rhv\n")
             writer.write(
-                " ".repeat(prevlenline - minus.toString().length) + minus + lhv.toString()[prevlenline - 1] + "\n"
+                " ".repeat(lhv.toString().length - 2) + "-0" + " ".repeat(3) + del + "\n" +
+                        "-".repeat(maxOf(2, lhv.toString().length)) + "\n" + lhv
             )
-            writer.write(
-                " ".repeat(prevlenline - mindig.length) + "-" + mindig
-            )
-            writer.write(
-                "\n" + " ".repeat(
-                    prevlenline + 1 - maxOf(
-                        (minus.toString() + lhv.toString()[prevlenline - 1]).length,
-                        mindig.length + 1
-                    )
-                ) + "-".repeat(
-                    maxOf(
-                        (minus.toString() + lhv.toString()[prevlenline - 1]).length,
-                        mindig.length + 1
-                    )
-                ) + "\n"
-            )
-            prev = (minus.toString() + lhv.toString()[prevlenline - 1]).toInt()
-            if (i == del.length - 1) {
+        }
+    } else {
+        writer.write(" $lhv | $rhv\n")
+        for (i in del.indices) {
+            val mindig = (rhv * del[i].toString().toInt()).toString()
+            if (i == 0) {
                 writer.write(
-                    " ".repeat(
-                        prevlenline + 1 - (prev - rhv * del[i].toString().toInt()).toString().length
-                    ) + (prev - rhv * del[i].toString().toInt())
+                    "-" + mindig + " ".repeat(3 + (lhv.toString().length - mindig.length)) + del
                 )
+                writer.write("\n" + "-".repeat(mindig.length + 1) + "\n")
+                prevlenline += mindig.length + 1
+                if (i == del.length - 1) {
+                    writer.write(
+                        " ".repeat(
+                            prevlenline - (prev - rhv * del[i].toString().toInt()).toString().length
+                        ) + (prev - rhv * del[i].toString().toInt())
+                    )
+                }
+            } else {
+                if (i == 1) minus = lhv.toString().slice(0 until prevlenline - 1).toInt() -
+                        rhv * del[0].toString().toInt()
+                else minus = prev - rhv * del[i - 1].toString().toInt()
+                println(minus)
+                println(prevlenline)
+                writer.write(
+                    " ".repeat(prevlenline - minus.toString().length) + minus + lhv.toString()[prevlenline - 1] + "\n"
+                )
+                writer.write(
+                    " ".repeat(prevlenline - mindig.length) + "-" + mindig
+                )
+                writer.write(
+                    "\n" + " ".repeat(
+                        prevlenline + 1 - maxOf(
+                            (minus.toString() + lhv.toString()[prevlenline - 1]).length,
+                            mindig.length + 1
+                        )
+                    ) + "-".repeat(
+                        maxOf(
+                            (minus.toString() + lhv.toString()[prevlenline - 1]).length,
+                            mindig.length + 1
+                        )
+                    ) + "\n"
+                )
+                prev = (minus.toString() + lhv.toString()[prevlenline - 1]).toInt()
+                if (i == del.length - 1) {
+                    writer.write(
+                        " ".repeat(
+                            prevlenline + 1 - (prev - rhv * del[i].toString().toInt()).toString().length
+                        ) + (prev - rhv * del[i].toString().toInt())
+                    )
+                }
+                prevlenline += 1
             }
-            prevlenline += 1
         }
     }
+
     writer.close()
 }
+
 
