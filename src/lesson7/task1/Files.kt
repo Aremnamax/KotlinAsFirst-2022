@@ -547,6 +547,52 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  *
  */
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    writer.write(" $lhv | $rhv\n")
+    val del = (lhv / rhv).toString()
+    var prev = lhv
+    var prevlenline = 0
+    var minus = 0
+    for (i in del.indices) {
+        val mindig = (rhv * del[i].toString().toInt()).toString()
+        if (i == 0) {
+            writer.write(
+                "-" + mindig + " ".repeat(3 + (lhv.toString().length - mindig.length)) + del
+            )
+            writer.write("\n" + "-".repeat(mindig.length + 1) + "\n")
+            prevlenline += mindig.length + 1
+            if (i == del.length - 1) {
+                writer.write(" ".repeat(prevlenline - (prev - rhv * del[i].toString().toInt()).toString().length) + (prev - rhv * del[i].toString().toInt()))
+            }
+        } else {
+            if (i == 1) minus = lhv.toString().slice(0 until prevlenline - 1).toInt() -
+                    rhv * del[0].toString().toInt()
+            else minus = prev - rhv * del[i - 1].toString().toInt()
+            writer.write(
+                " ".repeat(prevlenline - minus.toString().length) + minus + lhv.toString()[prevlenline - 1] + "\n"
+            )
+            writer.write(
+                " ".repeat(prevlenline - mindig.length) + "-" + mindig
+            )
+            writer.write(
+                "\n" + " ".repeat(prevlenline - mindig.length) + "-".repeat(
+                    maxOf(
+                        minus.toString().length,
+                        mindig.length + 1
+                    )
+                ) + "\n"
+            )
+            prev = (minus.toString() + lhv.toString()[prevlenline - 1]).toInt()
+            prevlenline += 1
+            if (i == del.length - 1) {
+                writer.write(
+                    " ".repeat(
+                        prevlenline - (prev - rhv * del[i].toString().toInt()).toString().length
+                    ) + (prev - rhv * del[i].toString().toInt())
+                )
+            }
+        }
+    }
+    writer.close()
 }
 
