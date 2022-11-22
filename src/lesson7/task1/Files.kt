@@ -593,7 +593,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                 if (i == del.length - 1) {
                     writer.write(
                         " ".repeat(
-                            prevlenline - (prev - rhv * del[i].toString().toInt()).toString().length
+                            prevlenline - 1 - (prev - rhv * del[i].toString().toInt()).toString().length
                         ) + (prev - rhv * del[i].toString().toInt())
                     )
                 }
