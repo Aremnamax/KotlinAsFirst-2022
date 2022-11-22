@@ -554,30 +554,42 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     var prev = lhv
     var prevlenline = 0
     var minus = 0
+    var lendig = lhv.toString().length
     if (lhv < rhv) {
-        if (lhv.toString().length == 1) {
+        if (lendig == 1) {
             writer.write(" $lhv | $rhv\n")
             writer.write(
                 "-0" + " ".repeat(3) + del + "\n" +
-                        "-".repeat(maxOf(2, lhv.toString().length)) + "\n" + " $lhv"
+                        "-".repeat(maxOf(2, lendig)) + "\n " + lhv
             )
         } else {
             writer.write("$lhv | $rhv\n")
             writer.write(
-                " ".repeat(lhv.toString().length - 2) + "-0" + " ".repeat(3) + del + "\n" +
-                        "-".repeat(maxOf(2, lhv.toString().length)) + "\n" + lhv
+                " ".repeat(lendig - 2) + "-0" + " ".repeat(3) + del + "\n" +
+                        "-".repeat(maxOf(2, lendig)) + "\n" + lhv
             )
         }
     } else {
-        writer.write(" $lhv | $rhv\n")
         for (i in del.indices) {
             val mindig = (rhv * del[i].toString().toInt()).toString()
             if (i == 0) {
+                prevlenline = mindig.length
+                lendig = mindig.length
+                if (mindig.toInt() > lhv.toString().slice(mindig.indices).toInt()) {
+                    prevlenline = mindig.length + 1
+                    lendig += 1
+                }
+                if (prevlenline >= mindig.length + 1) writer.write("$lhv | $rhv\n") else {
+                    writer.write(" $lhv | $rhv\n")
+                    prevlenline += 1
+                }
                 writer.write(
-                    "-" + mindig + " ".repeat(3 + (lhv.toString().length - mindig.length)) + del
+                    " ".repeat(prevlenline - mindig.length - 1) + "-" + mindig
+                            + " ".repeat(3 + (lhv.toString().length - mindig.length)) + del
                 )
                 writer.write("\n" + "-".repeat(mindig.length + 1) + "\n")
-                prevlenline += mindig.length + 1
+                prevlenline += 1
+                lendig += 1
                 if (i == del.length - 1) {
                     writer.write(
                         " ".repeat(
@@ -586,39 +598,41 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                     )
                 }
             } else {
-                if (i == 1) minus = lhv.toString().slice(0 until prevlenline - 1).toInt() -
+                println(prevlenline)
+                println(lendig)
+                if (i == 1) minus = lhv.toString().slice(0 until lendig - 1).toInt() -
                         rhv * del[0].toString().toInt()
                 else minus = prev - rhv * del[i - 1].toString().toInt()
                 println(minus)
-                println(prevlenline)
                 writer.write(
-                    " ".repeat(prevlenline - minus.toString().length) + minus + lhv.toString()[prevlenline - 1] + "\n"
+                    " ".repeat(prevlenline - minus.toString().length - 1) + minus.toString() + lhv.toString()[lendig - 1].toString() + "\n"
                 )
                 writer.write(
-                    " ".repeat(prevlenline - mindig.length) + "-" + mindig
+                    " ".repeat(prevlenline - mindig.length - 1) + "-" + mindig
                 )
                 writer.write(
                     "\n" + " ".repeat(
-                        prevlenline + 1 - maxOf(
-                            (minus.toString() + lhv.toString()[prevlenline - 1]).length,
+                        prevlenline - maxOf(
+                            (minus.toString() + lhv.toString()[lendig - 1]).length,
                             mindig.length + 1
                         )
                     ) + "-".repeat(
                         maxOf(
-                            (minus.toString() + lhv.toString()[prevlenline - 1]).length,
+                            (minus.toString() + lhv.toString()[lendig - 1]).length,
                             mindig.length + 1
                         )
                     ) + "\n"
                 )
-                prev = (minus.toString() + lhv.toString()[prevlenline - 1]).toInt()
+                prev = (minus.toString() + lhv.toString()[lendig - 1]).toInt()
                 if (i == del.length - 1) {
                     writer.write(
                         " ".repeat(
-                            prevlenline + 1 - (prev - rhv * del[i].toString().toInt()).toString().length
+                            prevlenline - (prev - rhv * del[i].toString().toInt()).toString().length
                         ) + (prev - rhv * del[i].toString().toInt())
                     )
                 }
                 prevlenline += 1
+                lendig += 1
             }
         }
     }
