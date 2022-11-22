@@ -554,6 +554,7 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     var prev = lhv
     var prevlenline = 0
     var minus = 0
+    var len = 0
     var lendig = lhv.toString().length
     if (lhv < rhv) {
         if (lendig == 1) {
@@ -579,13 +580,18 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
                     prevlenline = mindig.length + 1
                     lendig += 1
                 }
-                if (prevlenline >= mindig.length + 1) writer.write("$lhv | $rhv\n") else {
+                if (prevlenline >= mindig.length + 1) {
+                    writer.write("$lhv | $rhv\n")
+                    len = "$lhv | $rhv\n".length
+                } else {
                     writer.write(" $lhv | $rhv\n")
                     prevlenline += 1
+                    len = " $lhv | $rhv\n".length
                 }
+                println(len)
                 writer.write(
                     " ".repeat(prevlenline - mindig.length - 1) + "-" + mindig
-                            + " ".repeat(3 + (lhv.toString().length - mindig.length)) + del
+                            + " ".repeat(len - 1 - (mindig.length + 1) - rhv.toString().length) + del
                 )
                 writer.write("\n" + "-".repeat(mindig.length + 1) + "\n")
                 prevlenline += 1
@@ -639,5 +645,4 @@ fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
 
     writer.close()
 }
-
 
