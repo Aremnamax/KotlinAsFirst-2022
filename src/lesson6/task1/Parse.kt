@@ -67,7 +67,6 @@ fun timeSecondsToStr(seconds: Int): String {
 }*/
 
 
-
 /**
  * Средняя (4 балла)
  *
@@ -79,36 +78,30 @@ fun timeSecondsToStr(seconds: Int): String {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
+val month = mutableMapOf(
+    "января" to 1,
+    "февраля" to 2,
+    "марта" to 3,
+    "апреля" to 4,
+    "мая" to 5,
+    "июня" to 6,
+    "июля" to 7,
+    "августа" to 8,
+    "сентября" to 9,
+    "октября" to 10,
+    "ноября" to 11,
+    "декабря" to 12
+)
+
 fun dateStrToDigit(str: String): String {
     val splt = str.split(' ')
-    var year = 0
-    var monthprnt = 0
-    var day = 0
-    var flag = 0
-    val month = mutableMapOf<String, Int>(
-        "января" to 1,
-        "февраля" to 2,
-        "марта" to 3,
-        "апреля" to 4,
-        "мая" to 5,
-        "июня" to 6,
-        "июля" to 7,
-        "августа" to 8,
-        "сентября" to 9,
-        "октября" to 10,
-        "ноября" to 11,
-        "декабря" to 12
-    )
     try {
-        if (splt.size == 3) {
-            year = splt[2].toInt()
-            if (splt[1] in month) {
-                monthprnt = month[splt[1]]!!
-                if (splt[0].toInt() <= daysInMonth(month.getOrDefault(splt[1], -1), splt[2].toInt())
-                ) day = splt[0].toInt() else flag = 1
-            } else flag = 1
-        } else flag = 1
-        return if (flag == 0) String.format("%02d.%02d.%d", day, monthprnt, year) else ""
+        if (splt.size != 3) return ""
+        val year = splt[2].toInt()
+        val monthAsInt = month[splt[1]] ?: return ""
+        val day = splt[0].toInt()
+        if (day > daysInMonth(monthAsInt, year) || day < 1) return ""
+        return String.format("%02d.%02d.%d", day, monthAsInt, year)
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -128,7 +121,35 @@ fun dateStrToDigit(str: String): String {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+
+val month02 = mutableMapOf(
+    "01" to "января",
+    "02" to "февраля",
+    "03" to "марта",
+    "04" to "апреля",
+    "05" to "мая",
+    "06" to "июня",
+    "07" to "июля",
+    "08" to "августа",
+    "09" to "сентября",
+    "10" to "октября",
+    "11" to "ноября",
+    "12" to "декабря"
+)
+
+fun dateDigitToStr(digital: String): String {
+    val splt = digital.split('.')
+    try {
+        if (splt.size != 3) return ""
+        val year = splt[2].toInt()
+        val monthAsStr = month02[splt[1]] ?: return ""
+        val day = splt[0].toInt()
+        if (day > daysInMonth(splt[1].toInt(), year) || day < 1) return ""
+        return "$day $monthAsStr $year"
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя (4 балла)

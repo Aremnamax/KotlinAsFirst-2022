@@ -276,17 +276,16 @@ fun findCheapestStuff(stuff: Map<String, Pair<String, Double>>, kind: String): S
  *   canBuildFrom(listOf('a', 'b', 'o'), "baobab") -> true
  */
 fun canBuildFrom(chars: List<Char>, word: String): Boolean {
-    var flag = false
+    /*var flag = false*/
     for (i in word) {
-        if (i.lowercase() in chars.map { it.lowercase() }) flag = true
+        if (i.lowercase() in chars.map { it.lowercase() }) continue
         else {
-            flag = false
-            break
+            return false
         }
     }
-    if (chars.isEmpty() && word == "") flag = true
-    else if (chars.isNotEmpty() && word == "") flag = true
-    return flag
+    if (chars.isEmpty() && word == "") return true
+    else if (chars.isNotEmpty() && word == "") return true
+    return true
 }
 /*
 fun main() {

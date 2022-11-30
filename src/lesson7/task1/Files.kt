@@ -68,12 +68,12 @@ fun deleteMarked(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val fileObject = File(inputName)
     val lines = fileObject.bufferedReader().readLines()
-    for (word in lines) {
-        if (word == "") {
+    for (line in lines) {
+        if (line == "") {
             writer.write("\n")
             continue
         }
-        if (word[0].toString() == "_") continue else writer.write("$word\n")
+        if (line.startsWith("_")) continue else writer.write("$line\n")
     }
     writer.close()
 }
