@@ -283,8 +283,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean {
             return false
         }
     }
-    if (chars.isEmpty() && word == "") return true
-    else if (chars.isNotEmpty() && word == "") return true
+    if (word == "") return true
     return true
 }
 /*

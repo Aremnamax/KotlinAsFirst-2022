@@ -180,8 +180,8 @@ fun flattenPhoneNumber(phone: String): String = TODO()
 fun bestLongJump(jumps: String): Int {
     return try {
         val jumpsR =
-            jumps.split("""[%\-\s]""".toRegex()).filter { it.isNotBlank() }.map { it.trim().toInt() }
-        jumpsR.max()
+            jumps.split("""[%\-\s]""".toRegex()).filter { it.isNotBlank() }.maxOf { it.trim().toInt() }
+        jumpsR
     } catch (e: NoSuchElementException) {
         -1
     } catch (e: NumberFormatException) {
