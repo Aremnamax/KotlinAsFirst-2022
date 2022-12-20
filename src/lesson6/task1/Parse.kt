@@ -180,7 +180,9 @@ fun flattenPhoneNumber(phone: String): String = TODO()
 fun bestLongJump(jumps: String): Int {
     return try {
         val jumpsR =
-            jumps.split("""[%\-\s]""".toRegex()).filter { it.isNotBlank() }.maxOf { it.trim().toInt() }
+            jumps.split("""[%\-\s]""".toRegex())
+                .filter { it.isNotBlank() }
+                .maxOf { it.trim().toInt() }
         jumpsR
     } catch (e: NoSuchElementException) {
         -1
@@ -274,17 +276,15 @@ fun plusMinus(expression: String): Int = TODO()
  */
 fun firstDuplicateIndex(str: String): Int {
     val splt = str.split(" ")
-    var index = -1
     var len = 0
     if (splt.size != 1) {
         for (i in 0..splt.size - 2) {
             if (splt[i].lowercase() == splt[i + 1].lowercase()) {
-                index = len
-                break
+                return len
             } else len += splt[i].length + 1
         }
     }
-    return index
+    return -1
 }
 
 /*fun main() {
