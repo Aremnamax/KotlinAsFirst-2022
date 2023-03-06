@@ -19,6 +19,12 @@ class PolynomTest {
     fun polynomGetValue() {
         val p = Polynom(1.0, 3.0, 2.0)
         assertEquals(42.0, p.getValue(5.0), 1e-10)
+        val g = Polynom(0.0, 1.0, 0.0, 3.0, 2.0)
+        assertEquals(142.0, g.getValue(5.0), 1e-10)
+        val r = Polynom(0.0, 0.0, 0.0, 0.0, 0.0)
+        assertEquals(0.0, r.getValue(5.0), 1e-10)
+        val d = Polynom(0.0, 0.0, -1.0, -1.0, -1.0)
+        assertEquals(-1.0, d.getValue(-1.0), 1e-10)
     }
 
     @Test
@@ -48,6 +54,10 @@ class PolynomTest {
         val p = Polynom(1.0, -1.0, 2.0)
         val r = Polynom(-1.0, 1.0, -2.0)
         assertApproxEquals(r, -p, 1e-11)
+        val t = Polynom(0.0, -1.0, 0.0)
+        val g = Polynom(1.0, 0.0)
+        assertApproxEquals(g, -t, 1e-11)
+        assertApproxEquals(Polynom(0.0), Polynom(1.0, 2.0) + Polynom(-1.0, -2.0), 1e-11)
     }
 
     @Test
@@ -58,6 +68,10 @@ class PolynomTest {
         val r = Polynom(1.0, -3.0, -4.0, 2.0)
         assertApproxEquals(r, p1 - p2, 1e-10)
         assertApproxEquals(-r, p2 - p1, 1e-10)
+        assertApproxEquals(Polynom(2.0), Polynom(3.0) - Polynom(1.0), 1e-10)
+        assertApproxEquals(Polynom(3.0, 1.0), Polynom(3.0, 2.0) - Polynom(0.0, 1.0), 1e-10)
+        assertApproxEquals(Polynom(1.0, 1.0), Polynom(3.0, 2.0) - Polynom(2.0, 1.0), 1e-10)
+        assertApproxEquals(Polynom(0.0), Polynom(3.0, 2.0) - Polynom(3.0, 2.0), 1e-10)
     }
 
     @Test
@@ -68,6 +82,7 @@ class PolynomTest {
         val r = Polynom(1.0, 1.0, -5.0, -3.0, 10.0, 8.0)
         assertApproxEquals(r, p1 * p2, 1e-10)
         assertApproxEquals(r, p2 * p1, 1e-10)
+        assertApproxEquals(Polynom(0.0), Polynom(3.0, 2.0) * Polynom(0.0), 1e-10)
     }
 
     @Test
@@ -96,6 +111,7 @@ class PolynomTest {
     fun polynomEquals() {
         assertEquals(Polynom(1.0, 2.0, 3.0), Polynom(1.0, 2.0, 3.0))
         assertEquals(Polynom(0.0, 2.0, 3.0), Polynom(2.0, 3.0))
+        assertEquals(Polynom(0.0, 0.0, 0.0), Polynom(0.0, 0.0))
     }
 
     @Test
