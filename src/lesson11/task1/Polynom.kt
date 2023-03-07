@@ -165,7 +165,9 @@ class Polynom(vararg coeffs: Double) {
     /**
      * Получение хеш-кода
      */
-    override fun hashCode(): Int = Polynom(*workCoeffs.reversedArray()).hashCode()
+    override fun hashCode(): Int {
+        return workCoeffs.contentHashCode()
+    }
 
 }
 
