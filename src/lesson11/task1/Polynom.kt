@@ -33,7 +33,7 @@ class Polynom(vararg coeffs: Double) {
         else lst.slice(sm until lst.size).toDoubleArray().reversedArray()
     }
 
-    private var workCoeffs = cleanCoeffs(*coeffs)
+    private val workCoeffs = cleanCoeffs(*coeffs)
 
 
 
@@ -46,7 +46,6 @@ class Polynom(vararg coeffs: Double) {
      * Расчёт значения при заданном x
      */
     fun getValue(x: Double): Double {
-        println(workCoeffs.joinToString())
         var result = 0.0
         for (index in workCoeffs.indices) {
             result += workCoeffs[index] * x.pow(index)
@@ -69,11 +68,11 @@ class Polynom(vararg coeffs: Double) {
     operator fun plus(other: Polynom): Polynom {
         var thisOne = this.workCoeffs
         var otherOne = other.workCoeffs
-        val res = Array(maxOf(thisOne.size, otherOne.size)) { 0.0 }
-        if (thisOne.size < otherOne.size) thisOne += Array(otherOne.size - thisOne.size) { 0.0 }.toDoubleArray()
-        else otherOne += Array(thisOne.size - otherOne.size) { 0.0 }.toDoubleArray()
-        thisOne.indices.forEach { res[it] = thisOne[it] + otherOne[it] }
-        return Polynom(*res.toDoubleArray().reversedArray())
+        var res = doubleArrayOf()
+        if (thisOne.size < otherOne.size) thisOne += DoubleArray(otherOne.size - thisOne.size) { 0.0 }
+        else otherOne += DoubleArray(thisOne.size - otherOne.size) { 0.0 }
+        thisOne.indices.forEach { res += thisOne[it] + otherOne[it] }
+        return Polynom(*res.reversedArray())
     }
 
     /**
@@ -88,12 +87,11 @@ class Polynom(vararg coeffs: Double) {
     operator fun minus(other: Polynom): Polynom {
         var thisOne = this.workCoeffs
         var otherOne = other.workCoeffs
-        val res = Array(maxOf(thisOne.size, otherOne.size)) { 0.0 }
-        /*if (thisOne.contentEquals(otherOne)) return Polynom(0.0)*/
-        if (thisOne.size < otherOne.size) thisOne += Array(otherOne.size - thisOne.size) { 0.0 }.toDoubleArray()
-        else otherOne += Array(thisOne.size - otherOne.size) { 0.0 }.toDoubleArray()
-        thisOne.indices.forEach { res[it] = thisOne[it] - otherOne[it] }
-        return Polynom(*res.reversedArray().toDoubleArray())
+        var res = doubleArrayOf()
+        if (thisOne.size < otherOne.size) thisOne += DoubleArray(otherOne.size - thisOne.size) { 0.0 }
+        else otherOne += DoubleArray(thisOne.size - otherOne.size) { 0.0 }
+        thisOne.indices.forEach { res += thisOne[it] - otherOne[it] }
+        return Polynom(*res.reversedArray())
     }
 
     /**
@@ -104,11 +102,9 @@ class Polynom(vararg coeffs: Double) {
         val otherOne = other.workCoeffs
         var res = DoubleArray(otherOne.size) { 0.0 }
         for (thisIndex in thisOne.indices) {
-            val part = Array(otherOne.size + thisIndex) { 0.0 }
             for (otherIndex in otherOne.indices) {
-                part[otherIndex + thisIndex] = thisOne[thisIndex] * otherOne[otherIndex]
+                res[otherIndex + thisIndex] = res[otherIndex + thisIndex] + (thisOne[thisIndex] * otherOne[otherIndex])
             }
-            part.indices.forEach { res[it] = res[it] + part[it] }
             res += 0.0
         }
         return Polynom(*res.reversedArray())
