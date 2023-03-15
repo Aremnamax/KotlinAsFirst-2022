@@ -66,13 +66,18 @@ class Polynom(vararg coeffs: Double) {
      * Сложение
      */
     operator fun plus(other: Polynom): Polynom {
-        var thisOne = this.workCoeffs
-        var otherOne = other.workCoeffs
-        var res = doubleArrayOf()
-        if (thisOne.size < otherOne.size) thisOne += DoubleArray(otherOne.size - thisOne.size) { 0.0 }
-        else otherOne += DoubleArray(thisOne.size - otherOne.size) { 0.0 }
-        thisOne.indices.forEach { res += thisOne[it] + otherOne[it] }
-        return Polynom(*res.reversedArray())
+        /*val thisOne = this.workCoeffs + DoubleArray(
+            maxOf(other.workCoeffs.size, this.workCoeffs.size) - this.workCoeffs.size) { 0.0 }
+        val otherOne = other.workCoeffs + DoubleArray(
+            maxOf(other.workCoeffs.size, this.workCoeffs.size) - other.workCoeffs.size) { 0.0 }
+        println()*/
+        var mx = this.workCoeffs
+        var mn = other.workCoeffs
+        if (this.workCoeffs.size <= other.workCoeffs.size) {
+            mn = this.workCoeffs
+            mx = other.workCoeffs
+        }
+        return Polynom(*DoubleArray(mx.size) { if (it <= mn.size - 1) mn[it] + mx[it] else 0.0 + mx[it] }.reversedArray())
     }
 
     /**
@@ -85,13 +90,19 @@ class Polynom(vararg coeffs: Double) {
      * Вычитание
      */
     operator fun minus(other: Polynom): Polynom {
-        var thisOne = this.workCoeffs
+        /*var thisOne = this.workCoeffs
         var otherOne = other.workCoeffs
-        var res = doubleArrayOf()
-        if (thisOne.size < otherOne.size) thisOne += DoubleArray(otherOne.size - thisOne.size) { 0.0 }
-        else otherOne += DoubleArray(thisOne.size - otherOne.size) { 0.0 }
-        thisOne.indices.forEach { res += thisOne[it] - otherOne[it] }
-        return Polynom(*res.reversedArray())
+        thisOne += DoubleArray(maxOf(otherOne.size, thisOne.size) - thisOne.size) { 0.0 }
+        otherOne += DoubleArray(maxOf(otherOne.size, thisOne.size) - otherOne.size) { 0.0 }
+        return Polynom(*DoubleArray(thisOne.size) { thisOne[it] - otherOne[it] }.reversedArray())*/
+        var mx = this.workCoeffs
+        var mn = other.workCoeffs
+        if (this.workCoeffs.size <= other.workCoeffs.size) {
+            mn = this.workCoeffs
+            mx = other.workCoeffs
+            return Polynom(*DoubleArray(mx.size) { if (it <= mn.size - 1) mn[it] - mx[it] else -mx[it] }.reversedArray())
+        }
+        return Polynom(*DoubleArray(mx.size) { if (it <= mn.size - 1) mx[it] - mn[it] else mx[it] }.reversedArray())
     }
 
     /**
